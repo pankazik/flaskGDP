@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>{{ country }} GDP Chart</title>
     <style>
     html, body {
       width: 100%;
@@ -21,7 +21,7 @@
 <h1>GDP of {{ country }}</h1>
 <select name="selected_country" id="selected_country" form="send" >
     {% for c in range(0,countrieslength) %}
-    <option value="{{ countries['id'][c] }}">{{ countries['name'][c] }}</option>
+    <option value="{{ countries[c]['country_code'] }}">{{ countries[c]['country_name'] }}</option>
     {% endfor %}
 </select>
 <form id="send" method="post">
@@ -44,6 +44,14 @@
                     lineTension: 0.1,
                     yAxisID: 'y',
                 },
+                                {
+                    label: "Linear regression",
+                    data: {{ lineardata | safe }},
+                    fill:false,
+                    borderColor:"rgb(255,0,81)",
+                    lineTension: 0.1,
+                    yAxisID: 'y',
+                },
             ]
         },
         options:{
@@ -57,5 +65,6 @@
 
     });
 </script>
+<p><b>R<sup>2</sup>:{{ r2 }}</b></p>
 </body>
 </html>
