@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      border: 0;
+      overflow: hidden; /*  Disable scrollbars */
+      display: block;  /* No floating content on sides */
+    }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.0/dist/chart.min.js"></script>
+
+</head>
+<body >
+<h1>GDP of {{ country }}</h1>
+<select name="selected_country" id="selected_country" form="send" >
+    {% for c in range(0,countrieslength) %}
+    <option value="{{ countries['id'][c] }}">{{ countries['name'][c] }}</option>
+    {% endfor %}
+</select>
+<form id="send" method="post">
+    <input type="submit" value="Submit">
+</form>
+<canvas  id="lineChart" width=1280" height='720'></canvas>
+
+<script>
+    const ctx = document.getElementById("lineChart").getContext("2d");
+    const lineChart = new Chart(ctx, {
+     type:'line',
+        data: {
+         labels : {{ labels | safe }},
+            datasets : [
+                {
+                    label: "{{ country | safe }} GDP in US$",
+                    data: {{ values | safe }},
+                    fill:false,
+                    borderColor:"rgb(0,39,255)",
+                    lineTension: 0.1,
+                    yAxisID: 'y',
+                },
+            ]
+        },
+        options:{
+         responsive:false,
+            scales: {
+                y: {
+                    min: 0,
+                    }
+                    }
+                },
+
+    });
+</script>
+</body>
+</html>
